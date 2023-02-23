@@ -3,11 +3,20 @@
 # SPDX short identifier: BSD-3-Clause
 ---
 
+# We put the entire role in a block so we can create
+# a role specific tag, which saves the caller from
+# having to do so in their playbook.
+- name: Role foolean/autofs
+  block:
 
-- name: Ensure autofs is removed (CIS)
-  become: true
-  ansible.builtin.package:
-    name: autofs
-    state: absent
-  when:
-    - ansible_system == 'Linux'
+    - name: Ensure autofs is removed (CIS)
+      become: true
+      ansible.builtin.package:
+        name: autofs
+        state: absent
+      when:
+        - ansible_system == 'Linux'
+
+  # Tags to be applied to this role (block)
+  tags:
+    - 'role_foolean_autofs'
